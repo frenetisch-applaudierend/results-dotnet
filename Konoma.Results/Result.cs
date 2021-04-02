@@ -9,6 +9,7 @@
 
     public abstract class Result<TData> : Result
     {
+        internal abstract TData SuccessValue { get; }
     }
 
     public abstract class Result<TData, TError> : Result<TData>
@@ -28,6 +29,8 @@
 
         internal override bool IsSuccess => true;
 
+        internal override TData SuccessValue => Data;
+
         internal override Error? ErrorValue => null;
     }
 
@@ -42,6 +45,8 @@
         public TError Error { get; }
 
         internal override bool IsSuccess => false;
+
+        internal override TData SuccessValue => default!;
 
         internal override Error ErrorValue => Error;
     }
