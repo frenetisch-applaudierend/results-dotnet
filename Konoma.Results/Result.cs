@@ -2,7 +2,7 @@
 {
     public abstract partial class Result
     {
-        internal abstract bool IsSuccess { get; }
+        internal abstract bool IsSuccessResult { get; }
 
         internal abstract Error? ErrorValue { get; }
     }
@@ -17,37 +17,35 @@
     {
     }
 
-    public class SuccessResult<TData, TError> : Result<TData, TError>
+    internal class SuccessResult<TData, TError> : Result<TData, TError>
         where TError : Error
     {
         public SuccessResult(TData data)
         {
-            Data = data;
+            SuccessValue = data;
         }
 
-        public TData Data { get; }
+        internal override bool IsSuccessResult => true;
 
-        internal override bool IsSuccess => true;
-
-        internal override TData SuccessValue => Data;
+        internal override TData SuccessValue { get; }
 
         internal override Error? ErrorValue => null;
     }
 
-    public class ErrorResult<TData, TError> : Result<TData, TError>
+    internal class ErrorResult<TData, TError> : Result<TData, TError>
         where TError : Error
     {
         public ErrorResult(TError error)
         {
-            Error = error;
+            _error = error;
         }
 
-        public TError Error { get; }
+        private readonly TError _error;
 
-        internal override bool IsSuccess => false;
+        internal override bool IsSuccessResult => false;
 
         internal override TData SuccessValue => default!;
 
-        internal override Error ErrorValue => Error;
+        internal override Error ErrorValue => _error;
     }
 }

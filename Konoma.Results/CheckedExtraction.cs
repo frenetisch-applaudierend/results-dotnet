@@ -6,13 +6,13 @@ namespace Konoma.Results
     public static partial class ResultOperations
     {
         [Pure]
-        public static bool IsSuccess(this Result result) => result.IsSuccess;
+        public static bool IsSuccess(this Result result) => result.IsSuccessResult;
 
         [Pure]
         public static bool IsSuccess<TData>(this Result<TData> result, [MaybeNullWhen(false)] out TData data)
         {
             data = result.SuccessValue;
-            return result.IsSuccess;
+            return result.IsSuccessResult;
         }
 
         [Pure]
@@ -23,7 +23,7 @@ namespace Konoma.Results
         {
             data = result.SuccessValue;
             error = result.ErrorValue;
-            return result.IsSuccess;
+            return result.IsSuccessResult;
         }
 
         [Pure]
@@ -35,18 +35,18 @@ namespace Konoma.Results
         {
             data = result.SuccessValue;
             error = (TError?) result.ErrorValue;
-            return result.IsSuccess;
+            return result.IsSuccessResult;
         }
 
 
         [Pure]
-        public static bool IsError(this Result result) => !result.IsSuccess;
+        public static bool IsError(this Result result) => !result.IsSuccessResult;
 
         [Pure]
         public static bool IsError(this Result result, [NotNullWhen(true)] out Error? error)
         {
             error = result.ErrorValue;
-            return !result.IsSuccess;
+            return !result.IsSuccessResult;
         }
 
         [Pure]
@@ -57,7 +57,7 @@ namespace Konoma.Results
         {
             data = result.SuccessValue;
             error = result.ErrorValue;
-            return !result.IsSuccess;
+            return !result.IsSuccessResult;
         }
 
         [Pure]
@@ -69,7 +69,7 @@ namespace Konoma.Results
         {
             data = result.SuccessValue;
             error = (TError?) result.ErrorValue;
-            return !result.IsSuccess;
+            return !result.IsSuccessResult;
         }
     }
 }
