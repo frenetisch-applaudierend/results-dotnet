@@ -13,7 +13,8 @@ namespace Konoma.Results.Tests.TestCases
 
             var successResult = Assert.IsType<SuccessResult<object, Error>>(result);
 
-            Assert.Null(successResult.Data);
+            Assert.Null(successResult.SuccessValue);
+            Assert.Null(successResult.ErrorValue);
         }
 
         [Fact]
@@ -24,7 +25,8 @@ namespace Konoma.Results.Tests.TestCases
 
             var errorResult = Assert.IsType<ErrorResult<object, Error>>(result);
 
-            Assert.Same(error, errorResult.Error);
+            Assert.Null(errorResult.SuccessValue);
+            Assert.Same(error, errorResult.ErrorValue);
         }
 
 
@@ -36,7 +38,8 @@ namespace Konoma.Results.Tests.TestCases
 
             var successResult = Assert.IsType<SuccessResult<string, Error>>(result);
 
-            Assert.Same(data, successResult.Data);
+            Assert.Same(data, successResult.SuccessValue);
+            Assert.Null(successResult.ErrorValue);
         }
 
         [Fact]
@@ -47,7 +50,8 @@ namespace Konoma.Results.Tests.TestCases
 
             var errorResult = Assert.IsType<ErrorResult<string, Error>>(result);
 
-            Assert.Same(error, errorResult.Error);
+            Assert.Null(errorResult.SuccessValue);
+            Assert.Same(error, errorResult.ErrorValue);
         }
 
         [Fact]
@@ -58,7 +62,8 @@ namespace Konoma.Results.Tests.TestCases
 
             var successResult = Assert.IsType<SuccessResult<Guid, Error>>(result);
 
-            Assert.Equal(data, successResult.Data);
+            Assert.Equal(data, successResult.SuccessValue);
+            Assert.Null(successResult.ErrorValue);
         }
 
         [Fact]
@@ -69,7 +74,8 @@ namespace Konoma.Results.Tests.TestCases
 
             var errorResult = Assert.IsType<ErrorResult<Guid, Error>>(result);
 
-            Assert.Same(error, errorResult.Error);
+            Assert.Equal(default, errorResult.SuccessValue);
+            Assert.Same(error, errorResult.ErrorValue);
         }
 
         [Fact]
@@ -80,7 +86,8 @@ namespace Konoma.Results.Tests.TestCases
 
             var successResult = Assert.IsType<SuccessResult<Guid?, Error>>(result);
 
-            Assert.Equal(data, successResult.Data);
+            Assert.Equal(data, successResult.SuccessValue);
+            Assert.Null(successResult.ErrorValue);
         }
 
         [Fact]
@@ -91,7 +98,8 @@ namespace Konoma.Results.Tests.TestCases
 
             var errorResult = Assert.IsType<ErrorResult<Guid?, Error>>(result);
 
-            Assert.Same(error, errorResult.Error);
+            Assert.Null(errorResult.SuccessValue);
+            Assert.Same(error, errorResult.ErrorValue);
         }
 
 
@@ -103,7 +111,8 @@ namespace Konoma.Results.Tests.TestCases
 
             var successResult = Assert.IsType<SuccessResult<string, TestError>>(result);
 
-            Assert.Same(data, successResult.Data);
+            Assert.Same(data, successResult.SuccessValue);
+            Assert.Null(successResult.ErrorValue);
         }
 
         [Fact]
@@ -114,7 +123,8 @@ namespace Konoma.Results.Tests.TestCases
 
             var errorResult = Assert.IsType<ErrorResult<string, TestError>>(result);
 
-            Assert.Same(error, errorResult.Error);
+            Assert.Null(errorResult.SuccessValue);
+            Assert.Same(error, errorResult.ErrorValue);
         }
 
         [Fact]
@@ -125,7 +135,8 @@ namespace Konoma.Results.Tests.TestCases
 
             var successResult = Assert.IsType<SuccessResult<Guid, TestError>>(result);
 
-            Assert.Equal(data, successResult.Data);
+            Assert.Equal(data, successResult.SuccessValue);
+            Assert.Null(successResult.ErrorValue);
         }
 
         [Fact]
@@ -136,7 +147,8 @@ namespace Konoma.Results.Tests.TestCases
 
             var errorResult = Assert.IsType<ErrorResult<Guid, TestError>>(result);
 
-            Assert.Same(error, errorResult.Error);
+            Assert.Equal(default, errorResult.SuccessValue);
+            Assert.Same(error, errorResult.ErrorValue);
         }
 
         [Fact]
@@ -147,7 +159,8 @@ namespace Konoma.Results.Tests.TestCases
 
             var successResult = Assert.IsType<SuccessResult<Guid?, TestError>>(result);
 
-            Assert.Equal(data, successResult.Data);
+            Assert.Equal(data, successResult.SuccessValue);
+            Assert.Null(successResult.ErrorValue);
         }
 
         [Fact]
@@ -158,7 +171,8 @@ namespace Konoma.Results.Tests.TestCases
 
             var errorResult = Assert.IsType<ErrorResult<Guid?, TestError>>(result);
 
-            Assert.Same(error, errorResult.Error);
+            Assert.Null(errorResult.SuccessValue);
+            Assert.Same(error, errorResult.ErrorValue);
         }
     }
 }
