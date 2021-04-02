@@ -16,6 +16,17 @@ namespace Konoma.Results
         }
 
         [Pure]
+        public static bool IsSuccess<TData>(
+            this Result<TData> result,
+            [MaybeNullWhen(false)] out TData data,
+            [NotNullWhen(false)] out Error? error)
+        {
+            data = result.SuccessValue;
+            error = result.ErrorValue;
+            return result.IsSuccess;
+        }
+
+        [Pure]
         public static bool IsSuccess<TData, TError>(
             this Result<TData, TError> result,
             [MaybeNullWhen(false)] out TData data,
@@ -34,6 +45,17 @@ namespace Konoma.Results
         [Pure]
         public static bool IsError(this Result result, [NotNullWhen(true)] out Error? error)
         {
+            error = result.ErrorValue;
+            return !result.IsSuccess;
+        }
+
+        [Pure]
+        public static bool IsError<TData>(
+            this Result<TData> result,
+            [MaybeNullWhen(true)] out TData data,
+            [NotNullWhen(true)] out Error? error)
+        {
+            data = result.SuccessValue;
             error = result.ErrorValue;
             return !result.IsSuccess;
         }

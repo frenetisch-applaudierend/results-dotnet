@@ -39,11 +39,20 @@ namespace Konoma.Results.Tests.TestCases
             Assert.True(result.IsSuccess());
             Assert.False(result.IsError());
 
-            Assert.True(result.IsSuccess(out var resultData));
-            Assert.False(result.IsError(out var resultError));
+            Assert.True(result.IsSuccess(out var resultData1));
+            Assert.False(result.IsError(out var resultError1));
 
-            Assert.Same(data, resultData);
-            Assert.Null(resultError);
+            Assert.True(result.IsSuccess(out var resultData2, out var resultError2));
+            Assert.False(result.IsError(out var resultData3, out var resultError3));
+
+            Assert.Same(data, resultData1);
+            Assert.Null(resultError1);
+
+            Assert.Same(data, resultData2);
+            Assert.Null(resultError2);
+
+            Assert.Same(data, resultData3);
+            Assert.Null(resultError3);
         }
 
         [Fact]
@@ -55,11 +64,20 @@ namespace Konoma.Results.Tests.TestCases
             Assert.False(result.IsSuccess());
             Assert.True(result.IsError());
 
-            Assert.False(result.IsSuccess(out var resultData));
-            Assert.True(result.IsError(out var resultError));
+            Assert.False(result.IsSuccess(out var resultData1));
+            Assert.True(result.IsError(out var resultError1));
 
-            Assert.Null(resultData);
-            Assert.Same(error, resultError);
+            Assert.False(result.IsSuccess(out var resultData2, out var resultError2));
+            Assert.True(result.IsError(out var resultData3, out var resultError3));
+
+            Assert.Null(resultData1);
+            Assert.Same(error, resultError1);
+
+            Assert.Null(resultData2);
+            Assert.Same(error, resultError2);
+
+            Assert.Null(resultData3);
+            Assert.Same(error, resultError3);
         }
 
         [Fact]
@@ -71,11 +89,20 @@ namespace Konoma.Results.Tests.TestCases
             Assert.True(result.IsSuccess());
             Assert.False(result.IsError());
 
-            Assert.True(result.IsSuccess(out var resultData));
-            Assert.False(result.IsError(out var resultError));
+            Assert.True(result.IsSuccess(out var resultData1));
+            Assert.False(result.IsError(out var resultError1));
 
-            Assert.Equal(data, resultData);
-            Assert.Null(resultError);
+            Assert.True(result.IsSuccess(out var resultData2, out var resultError2));
+            Assert.False(result.IsError(out var resultData3, out var resultError3));
+
+            Assert.Equal(data, resultData1);
+            Assert.Null(resultError1);
+
+            Assert.Equal(data, resultData2);
+            Assert.Null(resultError2);
+
+            Assert.Equal(data, resultData3);
+            Assert.Null(resultError3);
         }
 
         [Fact]
@@ -87,11 +114,20 @@ namespace Konoma.Results.Tests.TestCases
             Assert.False(result.IsSuccess());
             Assert.True(result.IsError());
 
-            Assert.False(result.IsSuccess(out var resultData));
-            Assert.True(result.IsError(out var resultError));
+            Assert.False(result.IsSuccess(out var resultData1));
+            Assert.True(result.IsError(out var resultError1));
 
-            Assert.Equal(default, resultData);
-            Assert.Same(error, resultError);
+            Assert.False(result.IsSuccess(out var resultData2, out var resultError2));
+            Assert.True(result.IsError(out var resultData3, out var resultError3));
+
+            Assert.Equal(default, resultData1);
+            Assert.Same(error, resultError1);
+
+            Assert.Equal(default, resultData2);
+            Assert.Same(error, resultError2);
+
+            Assert.Equal(default, resultData3);
+            Assert.Same(error, resultError3);
         }
 
         [Fact]
@@ -103,11 +139,20 @@ namespace Konoma.Results.Tests.TestCases
             Assert.True(result.IsSuccess());
             Assert.False(result.IsError());
 
-            Assert.True(result.IsSuccess(out var resultData));
-            Assert.False(result.IsError(out var resultError));
+            Assert.True(result.IsSuccess(out var resultData1));
+            Assert.False(result.IsError(out var resultError1));
 
-            Assert.Equal(data, resultData);
-            Assert.Null(resultError);
+            Assert.True(result.IsSuccess(out var resultData2, out var resultError2));
+            Assert.False(result.IsError(out var resultData3, out var resultError3));
+
+            Assert.Equal(data, resultData1);
+            Assert.Null(resultError1);
+
+            Assert.Equal(data, resultData2);
+            Assert.Null(resultError2);
+
+            Assert.Equal(data, resultData2);
+            Assert.Null(resultError2);
         }
 
         [Fact]
@@ -119,11 +164,20 @@ namespace Konoma.Results.Tests.TestCases
             Assert.False(result.IsSuccess());
             Assert.True(result.IsError());
 
-            Assert.False(result.IsSuccess(out var resultData));
-            Assert.True(result.IsError(out var resultError));
+            Assert.False(result.IsSuccess(out var resultData1));
+            Assert.True(result.IsError(out var resultError1));
 
-            Assert.Equal(default, resultData);
-            Assert.Same(error, resultError);
+            Assert.False(result.IsSuccess(out var resultData2, out var resultError2));
+            Assert.True(result.IsError(out var resultData3, out var resultError3));
+
+            Assert.Equal(default, resultData1);
+            Assert.Same(error, resultError1);
+
+            Assert.Equal(default, resultData2);
+            Assert.Same(error, resultError2);
+
+            Assert.Equal(default, resultData3);
+            Assert.Same(error, resultError3);
         }
 
 
