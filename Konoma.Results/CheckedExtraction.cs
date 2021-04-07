@@ -22,7 +22,7 @@ namespace Konoma.Results
             [NotNullWhen(false)] out Error? error)
         {
             data = result.SuccessValue;
-            error = result.ErrorValue;
+            error = result.ErrorValue!;
             return result.IsSuccessResult;
         }
 
@@ -34,7 +34,7 @@ namespace Konoma.Results
             where TError : Error
         {
             data = result.SuccessValue;
-            error = (TError?) result.ErrorValue;
+            error = (TError) result.ErrorValue!;
             return result.IsSuccessResult;
         }
 
@@ -45,7 +45,7 @@ namespace Konoma.Results
         [Pure]
         public static bool IsError(this Result result, [NotNullWhen(true)] out Error? error)
         {
-            error = result.ErrorValue;
+            error = result.ErrorValue!;
             return !result.IsSuccessResult;
         }
 
@@ -56,7 +56,7 @@ namespace Konoma.Results
             [NotNullWhen(true)] out Error? error)
         {
             data = result.SuccessValue;
-            error = result.ErrorValue;
+            error = result.ErrorValue!;
             return !result.IsSuccessResult;
         }
 
@@ -68,7 +68,7 @@ namespace Konoma.Results
             where TError : Error
         {
             data = result.SuccessValue;
-            error = (TError?) result.ErrorValue;
+            error = (TError?) result.ErrorValue!;
             return !result.IsSuccessResult;
         }
     }
