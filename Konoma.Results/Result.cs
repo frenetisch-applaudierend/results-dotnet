@@ -12,6 +12,7 @@
         internal abstract TData SuccessValue { get; }
     }
 
+    // ReSharper disable once UnusedTypeParameter
     public abstract class Result<TData, TError> : Result<TData>
         where TError : Error
     {
