@@ -49,7 +49,7 @@ namespace Konoma.Results.Tests.TestCases
             var outError = new TestError(inError.Message);
             var result = Result.Error(inError);
 
-            Result<string> mapped = result.Map(() => "Hello", _ => outError);
+            Result<string, TestError> mapped = result.Map(() => "Hello", _ => outError);
 
             Assert.True(mapped.IsError(out var resultError));
 

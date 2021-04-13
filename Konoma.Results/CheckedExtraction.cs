@@ -1,75 +1,84 @@
 using System.Diagnostics.CodeAnalysis;
-using System.Diagnostics.Contracts;
 
 namespace Konoma.Results
 {
-    public static partial class ResultOperations
+    public partial struct Result
     {
-        [Pure]
-        public static bool IsSuccess(this Result result) => result.IsSuccessResult;
+        public bool IsSuccess() => IsSuccessResult;
 
-        [Pure]
-        public static bool IsSuccess<TData>(this Result<TData> result, [MaybeNullWhen(false)] out TData data)
+        public bool IsError() => !IsSuccessResult;
+
+        public bool IsError([NotNullWhen(true)] out Error? error)
         {
-            data = result.SuccessValue;
-            return result.IsSuccessResult;
+            error = ErrorValue;
+            return !IsSuccessResult;
+        }
+    }
+
+    public partial struct Result<TData>
+    {
+        public bool IsSuccess() => IsSuccessResult;
+
+        public bool IsSuccess([MaybeNullWhen(false)] out TData data)
+        {
+            data = SuccessValue!;
+            return IsSuccessResult;
         }
 
-        [Pure]
-        public static bool IsSuccess<TData>(
-            this Result<TData> result,
-            [MaybeNullWhen(false)] out TData data,
-            [NotNullWhen(false)] out Error? error)
+        public bool IsSuccess([MaybeNullWhen(false)] out TData data, [NotNullWhen(false)] out Error? error)
         {
-            data = result.SuccessValue;
-            error = result.ErrorValue!;
-            return result.IsSuccessResult;
+            data = SuccessValue!;
+            error = ErrorValue;
+            return IsSuccessResult;
         }
 
-        [Pure]
-        public static bool IsSuccess<TData, TError>(
-            this Result<TData, TError> result,
-            [MaybeNullWhen(false)] out TData data,
-            [NotNullWhen(false)] out TError? error)
-            where TError : Error
+        public bool IsError() => !IsSuccessResult;
+
+        public bool IsError([NotNullWhen(true)] out Error? error)
         {
-            data = result.SuccessValue;
-            error = (TError) result.ErrorValue!;
-            return result.IsSuccessResult;
+            error = ErrorValue;
+            return !IsSuccessResult;
         }
 
-
-        [Pure]
-        public static bool IsError(this Result result) => !result.IsSuccessResult;
-
-        [Pure]
-        public static bool IsError(this Result result, [NotNullWhen(true)] out Error? error)
+        public bool IsError([MaybeNullWhen(true)] out TData data, [NotNullWhen(true)] out Error? error)
         {
-            error = result.ErrorValue!;
-            return !result.IsSuccessResult;
+            data = SuccessValue!;
+            error = ErrorValue;
+            return !IsSuccessResult;
+        }
+    }
+
+    public partial struct Result<TData, TError>
+        where TError : Error
+    {
+        public bool IsSuccess() => IsSuccessResult;
+
+        public bool IsSuccess([MaybeNullWhen(false)] out TData data)
+        {
+            data = SuccessValue!;
+            return IsSuccessResult;
         }
 
-        [Pure]
-        public static bool IsError<TData>(
-            this Result<TData> result,
-            [MaybeNullWhen(true)] out TData data,
-            [NotNullWhen(true)] out Error? error)
+        public bool IsSuccess([MaybeNullWhen(false)] out TData data, [NotNullWhen(false)] out TError? error)
         {
-            data = result.SuccessValue;
-            error = result.ErrorValue!;
-            return !result.IsSuccessResult;
+            data = SuccessValue!;
+            error = ErrorValue;
+            return IsSuccessResult;
         }
 
-        [Pure]
-        public static bool IsError<TData, TError>(
-            this Result<TData, TError> result,
-            [MaybeNullWhen(true)] out TData data,
-            [NotNullWhen(true)] out TError? error)
-            where TError : Error
+        public bool IsError() => !IsSuccessResult;
+
+        public bool IsError([NotNullWhen(true)] out TError? error)
         {
-            data = result.SuccessValue;
-            error = (TError?) result.ErrorValue!;
-            return !result.IsSuccessResult;
+            error = ErrorValue;
+            return !IsSuccessResult;
+        }
+
+        public bool IsError([MaybeNullWhen(true)] out TData data, [NotNullWhen(true)] out TError? error)
+        {
+            data = SuccessValue!;
+            error = ErrorValue;
+            return !IsSuccessResult;
         }
     }
 }

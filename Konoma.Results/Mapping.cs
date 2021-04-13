@@ -1,58 +1,52 @@
 using System;
-using System.Diagnostics.Contracts;
 
 namespace Konoma.Results
 {
-    public static partial class ResultOperations
+    public partial struct Result
     {
-        [Pure]
-        public static Result<TMappedData> Map<TMappedData>(this Result result, Func<TMappedData> valueMapping)
-        {
-            return result.IsError(out var error)
-                ? (Result<TMappedData>) new ErrorResult<TMappedData, Error>(error)
-                : new SuccessResult<TMappedData, Error>(valueMapping());
-        }
+        public Result<TMappedData> Map<TMappedData>(Func<TMappedData> valueMapping) =>
+            IsSuccessResult
+                ? new Result<TMappedData>(valueMapping(), null)
+                : new Result<TMappedData>(default!, ErrorValue);
 
-        [Pure]
-        public static Result<TMappedData, TMappedError> Map<TMappedData, TMappedError>(this Result result,
-            Func<TMappedData> valueMapping, Func<Error, TMappedError> errorMapping)
-            where TMappedError : Error
-        {
-            return result.IsError(out var error)
-                ? (Result<TMappedData, TMappedError>) new ErrorResult<TMappedData, TMappedError>(errorMapping(error))
-                : new SuccessResult<TMappedData, TMappedError>(valueMapping());
-        }
+        public Result<TMappedData, TMappedError> Map<TMappedData, TMappedError>(
+            Func<TMappedData> valueMapping,
+            Func<Error, TMappedError> errorMapping)
+            where TMappedError : Error =>
+            IsSuccessResult
+                ? new Result<TMappedData, TMappedError>(valueMapping(), null)
+                : new Result<TMappedData, TMappedError>(default!, errorMapping(ErrorValue!));
+    }
 
-        [Pure]
-        public static Result<TMappedData> Map<TData, TMappedData>(this Result<TData> result,
-            Func<TData, TMappedData> valueMapping)
-        {
-            return result.IsSuccess(out var data, out var error)
-                ? (Result<TMappedData>) new SuccessResult<TMappedData, Error>(valueMapping(data))
-                : new ErrorResult<TMappedData, Error>(error);
-        }
+    public partial struct Result<TData>
+    {
+        public Result<TMappedData> Map<TMappedData>(Func<TData, TMappedData> valueMapping) =>
+            IsSuccessResult
+                ? new Result<TMappedData>(valueMapping(SuccessValue), null)
+                : new Result<TMappedData>(default!, ErrorValue);
 
-        [Pure]
-        public static Result<TMappedData, TMappedError> Map<TData, TMappedData, TMappedError>(this Result<TData> result,
-            Func<TData, TMappedData> valueMapping, Func<Error, TMappedError> errorMapping)
-            where TMappedError : Error
-        {
-            return result.IsSuccess(out var data, out var error)
-                ? (Result<TMappedData, TMappedError>) new SuccessResult<TMappedData, TMappedError>(valueMapping(data))
-                : new ErrorResult<TMappedData, TMappedError>(errorMapping(error));
-        }
+        public Result<TMappedData, TMappedError> Map<TMappedData, TMappedError>(
+            Func<TData, TMappedData> valueMapping,
+            Func<Error, TMappedError> errorMapping)
+            where TMappedError : Error =>
+            IsSuccessResult
+                ? new Result<TMappedData, TMappedError>(valueMapping(SuccessValue), null)
+                : new Result<TMappedData, TMappedError>(default!, errorMapping(ErrorValue!));
+    }
 
-        [Pure]
-        public static Result<TMappedData, TMappedError> Map<TData, TError, TMappedData, TMappedError>(
-            this Result<TData, TError> result,
+    public partial struct Result<TData, TError>
+    {
+        public Result<TMappedData, TError> Map<TMappedData>(Func<TData, TMappedData> valueMapping) =>
+            IsSuccessResult
+                ? new Result<TMappedData, TError>(valueMapping(SuccessValue), null)
+                : new Result<TMappedData, TError>(default!, ErrorValue);
+
+        public Result<TMappedData, TMappedError> Map<TMappedData, TMappedError>(
             Func<TData, TMappedData> valueMapping,
             Func<TError, TMappedError> errorMapping)
-            where TError : Error
-            where TMappedError : Error
-        {
-            return result.IsSuccess(out var data, out var error)
-                ? (Result<TMappedData, TMappedError>) new SuccessResult<TMappedData, TMappedError>(valueMapping(data))
-                : new ErrorResult<TMappedData, TMappedError>(errorMapping(error));
-        }
+            where TMappedError : Error =>
+            IsSuccessResult
+                ? new Result<TMappedData, TMappedError>(valueMapping(SuccessValue), null)
+                : new Result<TMappedData, TMappedError>(default!, errorMapping(ErrorValue!));
     }
 }

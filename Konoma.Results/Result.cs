@@ -1,52 +1,45 @@
 ﻿namespace Konoma.Results
 {
-    public abstract partial class Result
+    public readonly partial struct Result
     {
-        internal abstract bool IsSuccessResult { get; }
-
-        internal abstract Error? ErrorValue { get; }
-    }
-
-    public abstract class Result<TData> : Result
-    {
-        internal abstract TData SuccessValue { get; }
-    }
-
-    // ReSharper disable once UnusedTypeParameter
-    public abstract class Result<TData, TError> : Result<TData>
-        where TError : Error
-    {
-    }
-
-    internal class SuccessResult<TData, TError> : Result<TData, TError>
-        where TError : Error
-    {
-        public SuccessResult(TData data)
+        private Result(Error? errorValue)
         {
-            SuccessValue = data;
+            ErrorValue = errorValue;
         }
 
-        internal override bool IsSuccessResult => true;
+        private Error? ErrorValue { get; }
 
-        internal override TData SuccessValue { get; }
-
-        internal override Error? ErrorValue => null;
+        private bool IsSuccessResult => ErrorValue is null;
     }
 
-    internal class ErrorResult<TData, TError> : Result<TData, TError>
-        where TError : Error
+    public readonly partial struct Result<TData>
     {
-        public ErrorResult(TError error)
+        internal Result(TData successValue, Error? errorValue)
         {
-            _error = error;
+            SuccessValue = successValue;
+            ErrorValue = errorValue;
         }
 
-        private readonly TError _error;
+        private TData SuccessValue { get; }
 
-        internal override bool IsSuccessResult => false;
+        private Error? ErrorValue { get; }
 
-        internal override TData SuccessValue => default!;
+        private bool IsSuccessResult => ErrorValue is null;
+    }
 
-        internal override Error ErrorValue => _error;
+    public readonly partial struct Result<TData, TError>
+        where TError : Error
+    {
+        internal Result(TData successValue, TError? errorValue)
+        {
+            SuccessValue = successValue;
+            ErrorValue = errorValue;
+        }
+
+        private TData SuccessValue { get; }
+
+        private TError? ErrorValue { get; }
+
+        private bool IsSuccessResult => ErrorValue is null;
     }
 }

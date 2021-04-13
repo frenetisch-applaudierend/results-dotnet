@@ -151,8 +151,8 @@ namespace Konoma.Results.Tests.TestCases
             Assert.Equal(data, resultData2);
             Assert.Null(resultError2);
 
-            Assert.Equal(data, resultData2);
-            Assert.Null(resultError2);
+            Assert.Equal(data, resultData3);
+            Assert.Null(resultError3);
         }
 
         [Fact]
