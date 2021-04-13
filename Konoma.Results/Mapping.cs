@@ -32,6 +32,11 @@ namespace Konoma.Results
             IsSuccessResult
                 ? new Result<TMappedData, TMappedError>(valueMapping(SuccessValue), null)
                 : new Result<TMappedData, TMappedError>(default!, errorMapping(ErrorValue!));
+
+        public static implicit operator Result(Result<TData> result) => new Result(result.ErrorValue);
+
+        public static implicit operator Result<TData, Error>(Result<TData> result) =>
+            new Result<TData, Error>(result.SuccessValue, result.ErrorValue);
     }
 
     public partial struct Result<TData, TError>
@@ -48,5 +53,16 @@ namespace Konoma.Results
             IsSuccessResult
                 ? new Result<TMappedData, TMappedError>(valueMapping(SuccessValue), null)
                 : new Result<TMappedData, TMappedError>(default!, errorMapping(ErrorValue!));
+
+        public static implicit operator Result(Result<TData, TError> result) => new Result(result.ErrorValue);
+
+        public static implicit operator Result<TData>(Result<TData, TError> result) =>
+            new Result<TData>(result.SuccessValue, result.ErrorValue);
+
+        public static implicit operator Result<TData, Error>(Result<TData, TError> result) =>
+            new Result<TData, Error>(result.SuccessValue, result.ErrorValue);
+
+        public static explicit operator Result<TData, TError>(Result<TData> result) =>
+            result.Map(v => v, e => (TError) e);
     }
 }

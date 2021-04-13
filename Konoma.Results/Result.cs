@@ -2,7 +2,7 @@
 {
     public readonly partial struct Result
     {
-        private Result(Error? errorValue)
+        internal Result(Error? errorValue)
         {
             ErrorValue = errorValue;
         }
